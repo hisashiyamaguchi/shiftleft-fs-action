@@ -1,3 +1,5 @@
+Source Code Vulnera scanning is mandatory for every customer!
+
 # Orca Shift Left Security Action
 
 [GitHub Action](https://github.com/features/actions)
