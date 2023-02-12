@@ -1,6 +1,6 @@
 name: Test Orca FS action
 
-on:
+on: push
   workflow_dispatch:
   pull_request:
 
