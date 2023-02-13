@@ -1,3 +1,5 @@
+Dependency scanning is mandatory capability for everyone!
+
 # Orca Shift Left Security Action
 
 [GitHub Action](https://github.com/features/actions)
