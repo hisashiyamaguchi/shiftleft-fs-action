@@ -1,3 +1,5 @@
+Shift Left is a mandatory capability for FV team!
+
 # Orca Shift Left Security Action
 
 [GitHub Action](https://github.com/features/actions)
