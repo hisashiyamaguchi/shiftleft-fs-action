@@ -1,128 +1,82 @@
-Test.
-# Orca Shift Left Security Action
-
-[GitHub Action](https://github.com/features/actions)
-for [Orca Shift Left Security](https://orca.security/solutions/shift-left-security/)
-
-#### More info can be found in the official Orca Shift Left Security<a href="https://docs.orcasecurity.io/v1/docs/shift-left-security"> documentation</a>
-
+# Orca Security - Shift Left Security quick start guide
+Orca Security has a capability of DevSecOps - a concept & philosopy of the
+collaborative security improvement framework for the entire SDLS. The repo here
+is a quick demo for your audiences.
+<br>
+<br>
 
 
-## Table of Contents
+## Prerequisites
+- Orca Security free trial license - visit [Orca Security](https://orca.security/lp/cloud-security-risk-assessment/) if you don't have
+  a free trial license.
+- GitHub account.
+- MacBook with GitHub CLI.
+<br>
+<br>
 
-- [Usage](#usage)
-    - [Workflow](#workflow)
-    - [Inputs](#inputs)
-- [Annotations](#annotations)
-- [Upload SARIF report](#upload-sarif-report)
 
+## Set-up
+Go Orca dashboard, and click "Shift Left" on the left pane and click "CREATE NEW". Put a name on Project name field and put an unique name on Project key field - this must be unique and the value must be specified on your GitHub Action workflow yml. Select "Orca Built-in Container Image Best Practices Policy", and click "Create".
+<br>
+<div align="center">
+<img src="./images/2.png" width=50%>
+</div>
+<br>
 
-## Usage
+Click the settings icon on the top right, and click "Authorization" on the left
+pane. Click "CREATE API TOKEN", and put a name on Name field. Click "CREATE
+TOKEN" and you may find an API Token on the screen - grab it.
+<br>
+<div align="center">
+<img src="./images/1.png" width=50%>
+</div>
+<br>
 
-### Workflow
+Folk the repo, and go "Settings" -> "Secrets" -> "Actions". Click "New
+repository secret", and put "ORCA_SECURITY_API_TOKEN" on Name field and put the
+API Token value on Secret field, and click Add secret.
+<div align="center">
+<img src="./images/3.png" width=50%>
+</div>
+<br>
 
-```yaml
-name: Sample Orca FS Scan Workflow
-on:
-  # Trigger the workflow on push request,
-  # but only for the main branch
-  push:
-    branches:
-      - main
-jobs:
-  orca-fs-scan:
-    name: Orca fs Scan
-    runs-on: ubuntu-latest
-    env:
-      PROJECT_KEY: <project key> # Set the desired project to run the cli scanning with
-    steps:
-      # Checkout your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Run Orca FS Scan
-        uses: orcasecurity/shiftleft-fs-action@v1
-        with:
-          api_token: ${{ secrets.ORCA_SECURITY_API_TOKEN }}
-          project_key: ${{ env.PROJECT_KEY }}
-          path:
-            # scanning directories: ./terraform/ ./sub-dir/ and a file: ./Dockerfile
-            "terraform,sub-dir,other-sub-dir/Dockerfile"
+[Go GitHub Actions workflow yml](https://github.com/hisashiyamaguchi/shift-left-image/blob/main/.github/workflows/ci-with-imagescan-pipeline.yml), and put your Project key that you just
+specified on Orca dashboard.
+```yml
+env: 
+  IMAGE_NAME: base_infra:latest
+  PROJECT_KEY: hogehoge
+  CLI_VERSION: latest
 ```
 
-### Inputs
-
-| Variable                | Example Value &nbsp;                       | Description &nbsp;                                                                | Type    | Required | Default |
-|-------------------------|--------------------------------------------|-----------------------------------------------------------------------------------|---------|----------|---------|
-| api_token               |                                            | Orca API Token used for Authentication                                            | String  | Yes      | N/A     |
-| project_key             | my-project-key                             | Project Key name                                                                  | String  | Yes      | N/A     |
-| path                    | terraform,sub-dir,other-sub-dir/Dockerfile | Paths or directories to scan (comma-separated)                                    | String  | Yes      | N/A     |
-| format                  | json                                       | Format for displaying the results                                                 | String  | No       | cli     |
-| output                  | ./results                                  | Output file name                                                                  | String  | No       | N/A     |
-| no_color                | false                                      | Disable color output                                                              | Boolean | No       | false   |
-| exit_code               | 10                                         | Exit code for failed execution due to policy violations                           | Integer | No       | 3       |
-| control_timeout         | 30                                         | Number of seconds the control has to execute before being canceled                | Integer | No       | 60      |
-| silent                  | false                                      | Disable logs and warnings output                                                  | Boolean | No       | false   |
-| console-output          | json                                       | Prints results to console in the provided format (only when --output is provided) | String  | No       | cli     |
-| config                  | config.json                                | path to configuration file (json, yaml or toml)                                   | String  | No       | N/A     |
-| show_annotations        | true                                       | show github annotations on pull requests                                          | Boolean | No       | true    |
-| disable-secret          | true                                       | Disables the secret detection scanning                                            | Boolean | No       | false   |
-| exceptions-filepath     | n/a                                        | exceptions YAML filepath. (File should be mounted)                                | String  | No       | false   |
-| hide-vulnerabilities    | n/a                                        | do not show detailed view of the vulnerabilities findings                         | Boolean | No       | false   |
-| num-cpu                 | 10                                         | Number of logical CPUs to be used for secret scanning (default 10)                | Integer | No       | 10      |
-| show-failed-issues-only | n/a                                        | show only failed issues                                                           | Boolean | No       | false   |
+<br>
+<br>
 
 
-## Annotations
-After scanning, the action will add the results as annotations in a pull request:
-
-![](/assets/annotations_preview.png)
->  **NOTE:**  Annotations can be disabled by setting the "show_annotation" input to "false"
-
-
-## Upload SARIF report
-If you have [GitHub code scanning](https://docs.github.com/en/github/finding-security-vulnerabilities-and-errors-in-your-code/about-code-scanning) available you can use Orca Shift Left Security as a scanning tool
-> **NOTE:**  Code scanning is available for all public repositories. Code scanning is also available in private repositories owned by organizations that use GitHub Enterprise Cloud and have a license for GitHub Advanced Security.
-
-Configuration:
-
-```yaml
-name: Scan and upload SARIF
-
-push:
-  branches:
-    - main
-
-jobs:
-  orca-fs_scan:
-    name: Orca FS Scan
-    runs-on: ubuntu-latest
-    env:
-      PROJECT_KEY: <project key> # Set the desired project to run the cli scanning with
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Run Orca FS Scan
-        uses: orcasecurity/shiftleft-fs-action@v1
-        with:
-          api_token: ${{ secrets.ORCA_SECURITY_API_TOKEN }}
-          project_key: ${{ env.PROJECT_KEY }}
-          path: <path to scan>
-          format: "sarif"
-          output:
-            "results/"
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
-        with:
-          sarif_file: results/fs.sarif
+## Demo!
+1. Say the concept of DevSecOps to your audiences with short words, and expain the
+demo platform & prerequisite.
+2. Clone the repo to your local laptop. Go the repo directory and any codes
+   - README.md is the easiest.
+3. Commit the change locally and push the commit to remote repo - GitHub
+   Actions workflow will be triggered, and start buiding&scanning the Docker
+image.
+4. Orca Security is going to detect the image policy violation, and the
+   scanning will be fail - the reason is you did not set specific user on your
+Dockerfile, and the image has been built with root-user.
+5. Visit Orca dashboard and show scanning logs - you can show red flag error
+   logs.
+6. Uncomment the line#6 on [Dockerfile](https://github.com/hisashiyamaguchi/shift-left-image/blob/main/Dockerfile).
+```text
+# Uncomment the below line to set the a specific user for the container execution instead of running with user root
+USER demo
 ```
+7. Commit the change again locally and push it to the remote repo. GitHub
+   Actions workflow will be triggerd again, and the building&scanning will be
+succeeded this time as the building is done with non-root user - "principle of
+least priviledge" has been demonstrated!
+<br>
+<br>
 
-The results list can be found on the security tab of your GitHub project and should look like the following image
-![](/assets/code_scanning_list.png)
-
-
-An entry should describe the error and in which line it occurred 
-![](/assets/code_scanning_entry.png)
-
+## Issue Reporting
+If you have found a bug or if you have updates request, please report them at this repository issues section.
