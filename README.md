@@ -54,19 +54,18 @@ env:
 
 
 ## Demo!
-1. Explain the concept of DevSecOps to your audiences with short words, and expain the
-demo platform & prerequisite.
+1. Explain the concept of DevSecOps to your audiences with short words, and expain the demo platform & prerequisite.
 2. Show [test/samples/poetry.lock](https://github.com/hisashiyamaguchi/shiftleft-fs-action/blob/main/test/samples/poetry.lock). The file has tons of external libraries dependencies - Orca is going to scan this definition, and if Orca detects any policy violations, the delivery pipeline is going to be stopped.
 3. Go back to Orca console, and show your policy. "Orca Built-in - Source Code Vulnerabilities Policy"(the bottom one) is the policy that going to be applied to this demo repo.
-<br>
-<div align="center">
-<img src="./images/4.png" width=50%>
-</div>
-<br>
 4. Clone the repo to your local laptop. Go the repo directory and any codes - README.md is the easiest.
 5. Commit the change locally and push the commit to remote repo - GitHub Actions workflow will be triggered, and start buiding&scanning the poetry.lock.
 6. Orca Security is going to detect the policy violation, and the scanning will be fail - the reason is your external libraries has some vulnerabilities.
 7. Visit Orca dashboard and show scanning logs - you can show red flag error logs - that's it!
+<div align="center">
+<img src="./images/4.png" width=50%>
+<br>
+<img src="./images/5.png" width=50%>
+</div>
 <br>
 <br>
 
