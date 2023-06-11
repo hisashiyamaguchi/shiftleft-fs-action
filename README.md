@@ -54,27 +54,21 @@ env:
 
 
 ## Demo!
-1. Say the concept of DevSecOps to your audiences with short words, and expain the
+1. Explain the concept of DevSecOps to your audiences with short words, and expain the
 demo platform & prerequisite.
-2. Clone the repo to your local laptop. Go the repo directory and any codes
+2. Show [test/samples/poetry.lock](https://github.com/hisashiyamaguchi/shiftleft-fs-action/blob/main/test/samples/poetry.lock). The file has tons of external libraries dependencies - Orca is going to scan this definition, and if Orca detects any policy violations, the delivery pipeline is going to be stopped.
+3. Go back to Orca console, and show your policy. "Orca Built-in - Source Code Vulnerabilities Policy"(the bottom one) is the policy that going to be applied to this demo repo.
+<br>
+<div align="center">
+<img src="./images/4.png" width=50%>
+</div>
+<br>
+4. Clone the repo to your local laptop. Go the repo directory and any codes
    - README.md is the easiest.
 3. Commit the change locally and push the commit to remote repo - GitHub
-   Actions workflow will be triggered, and start buiding&scanning the Docker
-image.
-4. Orca Security is going to detect the image policy violation, and the
-   scanning will be fail - the reason is you did not set specific user on your
-Dockerfile, and the image has been built with root-user.
-5. Visit Orca dashboard and show scanning logs - you can show red flag error
-   logs.
-6. Uncomment the line#6 on [Dockerfile](https://github.com/hisashiyamaguchi/shift-left-image/blob/main/Dockerfile).
-```text
-# Uncomment the below line to set the a specific user for the container execution instead of running with user root
-USER demo
-```
-7. Commit the change again locally and push it to the remote repo. GitHub
-   Actions workflow will be triggerd again, and the building&scanning will be
-succeeded this time as the building is done with non-root user - "principle of
-least priviledge" has been demonstrated!
+   Actions workflow will be triggered, and start buiding&scanning the poetry.lock.
+4. Orca Security is going to detect the policy violation, and the scanning will be fail - the reason is your external libraries has some vulnerabilities.
+5. Visit Orca dashboard and show scanning logs - you can show red flag error logs - that's it!
 <br>
 <br>
 
