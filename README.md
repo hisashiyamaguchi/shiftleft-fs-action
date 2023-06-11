@@ -63,12 +63,10 @@ demo platform & prerequisite.
 <img src="./images/4.png" width=50%>
 </div>
 <br>
-4. Clone the repo to your local laptop. Go the repo directory and any codes
-   - README.md is the easiest.
-3. Commit the change locally and push the commit to remote repo - GitHub
-   Actions workflow will be triggered, and start buiding&scanning the poetry.lock.
-4. Orca Security is going to detect the policy violation, and the scanning will be fail - the reason is your external libraries has some vulnerabilities.
-5. Visit Orca dashboard and show scanning logs - you can show red flag error logs - that's it!
+4. Clone the repo to your local laptop. Go the repo directory and any codes - README.md is the easiest.
+5. Commit the change locally and push the commit to remote repo - GitHub Actions workflow will be triggered, and start buiding&scanning the poetry.lock.
+6. Orca Security is going to detect the policy violation, and the scanning will be fail - the reason is your external libraries has some vulnerabilities.
+7. Visit Orca dashboard and show scanning logs - you can show red flag error logs - that's it!
 <br>
 <br>
 
