@@ -1,4 +1,4 @@
-Cloud Operator Days Tokyo 2023!
+Shiftleft is a mandatory capability for DTCY.
 
 # Orca Security - Shift Left Security quick start guide
 Orca Security has a capability of DevSecOps - a concept & philosopy of the
